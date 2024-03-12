@@ -1,8 +1,8 @@
 import pandas as pd
 import csv
-import requests
 from bs4 import BeautifulSoup
 import re
+from security import safe_requests
 
 # Global for Access and updating for use with multiple classes depending on the situation
 player_contract_dict = {}
@@ -21,7 +21,7 @@ class NFL_Player_Stats:
         # Constants
         # Enter any year from 1970 and above
         YEAR = f'{year}'
-        URL = requests.get(f'https://www.nfl.com/stats/player-stats/category/passing/{YEAR}/post/all/passingyards/desc',
+        URL = safe_requests.get(f'https://www.nfl.com/stats/player-stats/category/passing/{YEAR}/post/all/passingyards/desc',
                            'html.parser')
         SOUP = BeautifulSoup(URL.text, features="html5lib")
         HEADER = ['Player', 'Pass Yds', 'Yds/Att', 'Att', 'Comp', 'Comp%', 'TD',
@@ -120,7 +120,7 @@ class NFL_Player_Pay:
     def player_contracts(self, year):
         global player_contract_dict
         YEAR = f'{year}'
-        URL = requests.get(f'https://www.spotrac.com/nfl/rankings/{YEAR}/average/quarterback/')
+        URL = safe_requests.get(f'https://www.spotrac.com/nfl/rankings/{YEAR}/average/quarterback/')
         SOUP = BeautifulSoup(URL.text, features="html5lib")
 
         player_name = SOUP.find_all(class_='team-name')
