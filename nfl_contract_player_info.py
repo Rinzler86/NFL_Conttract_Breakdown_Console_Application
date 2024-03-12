@@ -22,7 +22,7 @@ class NFL_Player_Stats:
         # Enter any year from 1970 and above
         YEAR = f'{year}'
         URL = requests.get(f'https://www.nfl.com/stats/player-stats/category/passing/{YEAR}/post/all/passingyards/desc',
-                           'html.parser')
+                           'html.parser', timeout=60)
         SOUP = BeautifulSoup(URL.text, features="html5lib")
         HEADER = ['Player', 'Pass Yds', 'Yds/Att', 'Att', 'Comp', 'Comp%', 'TD',
                   'INT', 'Rate', '1st', '1st%', '20+', '40+', 'Lng', 'Sck', 'Pay']
@@ -120,7 +120,7 @@ class NFL_Player_Pay:
     def player_contracts(self, year):
         global player_contract_dict
         YEAR = f'{year}'
-        URL = requests.get(f'https://www.spotrac.com/nfl/rankings/{YEAR}/average/quarterback/')
+        URL = requests.get(f'https://www.spotrac.com/nfl/rankings/{YEAR}/average/quarterback/', timeout=60)
         SOUP = BeautifulSoup(URL.text, features="html5lib")
 
         player_name = SOUP.find_all(class_='team-name')
